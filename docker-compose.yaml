@@ -12,6 +12,18 @@ services:
     ports:
       - "3000:3000"
 
+  nginx:
+      build:
+        context: ./nginx
+        dockerfile: Dockerfile
+      container_name: nginx
+      networks:
+        - desafio-nginx
+      ports:
+        - "8080:80"
+      depends_on:
+        - app 
+
 networks:
   desafio-nginx:
     driver: bridge
