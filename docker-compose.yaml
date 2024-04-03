@@ -3,8 +3,10 @@ version: '3'
 services:
   app:
     build: 
-      context: node
+      context: ./node
+      dockerfile: Dockerfile
     container_name: app
+    tty: true
     networks:
       - desafio-nginx
     ports:
