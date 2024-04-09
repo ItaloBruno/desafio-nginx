@@ -11,6 +11,8 @@ services:
       - desafio-nginx
     ports:
       - "3000:3000"
+    depends_on:
+      - db
 
   nginx:
       build:
@@ -23,6 +25,20 @@ services:
         - "8080:80"
       depends_on:
         - app 
+
+  db:
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0
+    container_name: db
+    restart: always
+    tty: true
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - desafio-nginx
 
 networks:
   desafio-nginx:
