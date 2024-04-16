@@ -16,7 +16,17 @@ conexao.query(`CREATE TABLE IF NOT EXISTS people(id int not null auto_increment,
 
 aplicacao.get('/', (req, res) => {
     conexao.query(`INSERT INTO people(name) values('Italo')`)
-    res.send('<h1>Full Cycle Rocks!</h1>')
+    var conteudoDaPagina = '<h1>Full Cycle Rocks!</h1>'
+
+    conexao.query(`SELECT * FROM people`, function(err, rows) {
+        rows.forEach(function (registro) { 
+            console.log(registro.name);
+            conteudoDaPagina = conteudoDaPagina + ' ' + registro.name;
+        });
+
+        res.send(conteudoDaPagina);
+    })
+
 })
 
 aplicacao.listen(porta, () => {
