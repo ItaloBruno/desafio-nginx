@@ -1,25 +1,24 @@
 const express = require('express')
-const app = express()
-const port = 3000
+const aplicacao = express()
+const porta = 3000
 
-const config = {
+const configuracao = {
     host: 'db',
     user: 'root',
     password: 'root',
     database: 'nodedb'
 }
+const mysql = require('mysql')
+const conexao = mysql.createConnection(configuracao)
 
-app.get('/', (req, res) => {
-    const mySql = require('mysql')
-    const conexao = mySql.createConnection(config)
+conexao.connect()
+conexao.query(`CREATE TABLE IF NOT EXISTS people(id int not null auto_increment, name VARCHAR(255), primary key(id))`)
 
-    const sqlDeInsercao = `INSERT INTO people(name) values('Italo')`
-    conexao.query(sqlDeInsercao)
-    conexao.end()
-
+aplicacao.get('/', (req, res) => {
+    conexao.query(`INSERT INTO people(name) values('Italo')`)
     res.send('<h1>Full Cycle Rocks!</h1>')
 })
 
-app.listen(port, () => {
-    console.log('Aplicação rodando na porta ' + port);
+aplicacao.listen(porta, () => {
+    console.log('Aplicação rodando na porta ' + porta);
 })
