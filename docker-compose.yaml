@@ -21,6 +21,9 @@ services:
       dockerfile: Dockerfile
     container_name: app
     tty: true
+    volumes:
+      - ./node:/usr/src/app
+      - /usr/src/app/node_modules
     networks:
       - desafio-nginx
     depends_on:
